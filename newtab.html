@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<meta charset="UTF-8">
+	<title>Crown's Desktop</title>
+	<script type="text/javascript" src="js/vendor/iconfont.js"></script>
+</head>
+<style>
+	html {
+	    box-sizing: border-box;
+	}
+	*, *:before, *:after {
+	    box-sizing: inherit;
+	}
+	body {
+		font-family: Circular,"Hiragino Sans GB","华文细黑","STHeiti","微软雅黑","Microsoft YaHei",SimHei,"Helvetica Neue",Helvetica,Arial,sans-serif !important
+	}
+	a {
+		text-decoration: none;
+	}
+
+	.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+	}
+
+	body {
+		background-image:url("img/bg.jpg");
+	}
+
+	.music {
+		width: 100%;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+	#canvas {
+		position: absolute;
+		top: calc(50% - 250px);
+		left: calc(50% - 250px);
+		z-index: 8;
+	}
+/*	#lineCanvas {
+		position: absolute;
+		top: calc(50% - 250px);
+		left: calc(50% - 500px);
+		z-index: 1;
+	}*/
+	.canvasBack {
+		position: absolute;
+		top: calc(50% - 250px);
+		left: calc(50% - 250px);
+		width: 500px;
+		height: 500px;
+		border-radius: 250px;
+		background-color: rgba(255,255,255,.3);
+		z-index: 2;
+	}
+
+	.mainPanel {
+		position: absolute;
+		top: calc(50% - 150px);
+		left: calc(50% - 150px);
+		width: 300px;
+		height: 300px;
+		z-index: 9;
+		text-align: center;
+	}
+	.time {
+		width: 100%;
+		position: absolute;
+		top: calc(50% - 80px);
+		left: 0;
+		text-align: center;
+	}
+	.time>p {
+		display: inline-block;
+		margin: 0;
+		line-height: 160px;
+		font-size: 62px;
+		color: #0070ff;
+	}
+	
+	.date {
+		width: 100%;
+		line-height: 40px;
+		position: absolute;
+		top: calc(50% - 100px);
+		left: 0;
+		text-align: center;
+	}
+	.date>p {
+		display: inline-block;
+		color: white;
+	}
+
+	.markBook {
+		width: 400px;
+		background-color: rgba(255,255,255,.1);
+		border: 1px solid rgba(255,255,255,.3);
+		border-radius: 3px;
+		position: absolute;
+		top: 5px;
+		left: 5px;
+	}
+	.markBook>.mark {
+		display: block;
+		width: 100%;
+		height: 30px;
+		overflow: hidden;
+		margin: 5px 0;
+	}
+	.markBook>.mark>img {
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		padding: 5px;
+	}
+	.markBook>.mark>p {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+		width: calc(100% - 40px);
+		line-height: 30px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		color: white;
+	}
+
+	.hitokoto {
+		position: absolute;
+		bottom: 0;
+		right: 10px;
+		color: white;
+		text-align: right;
+	}
+
+	#options {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+	#options>svg {
+		padding: 10px;
+		width: 50px;
+		height: 50px;
+		color: white;
+		cursor: pointer;
+	}
+</style>
+
+<body>
+	<div class="music">
+		<div class="canvasBack"></div>
+		<canvas id="canvas" width="500" height="500"></canvas>
+		<!-- <canvas id="lineCanvas" width="1000" height="500"></canvas> -->
+		<div class="mainPanel">
+			<div class="time">
+				<p id="hours1">0</p>
+				<p id="hours2">0</p>
+				<p style="padding-left: 10px;padding-right:10px;">:</p>
+				<p id="minutes1">0</p>
+				<p id="minutes2">0</p>
+			</div>
+			<div class="date">
+				<p id="month">Jan</p>
+				<p> </p>
+				<p id="day">1</p>
+				<p> </p>
+				<p id="week">Mon</p>
+			</div>
+		</div>
+	</div>
+	<div class="markBook">
+		<a class="mark" href="https://www.bilibili.com/">
+			<img src="http://static.hdslb.com/images/favicon.ico" />
+			<p>哔哩哔哩 (゜ - ゜) つロ 干杯~-bilibili</p>
+		</a>
+		<a class="mark" href="https://www.douyu.com/">
+			<img src="/res/logo/douyu.png" />
+			<p>斗鱼 - 每个人的直播平台</p>
+		</a>
+		<a class="mark" href="https://github.com/">
+			<img src="https://github.com/favicon.ico" />
+			<p>GitHub · The world’s leading software development platform</p>
+		</a>
+		<a class="mark" href="https://jiyue.moe/">
+			<img src="https://jiyue.moe/app/uploads/2016/07/20160701_184149-270x270.png" />
+			<p>寂月神社</p>
+		</a>
+	</div>
+	<div class="hitokoto">
+		<p id="hitokotoText"></p>
+		<p id="hitokotoFrom"></p>
+	</div>
+	<div id="options">
+		<svg class="icon">
+			<use xlink:href="#icon-shezhichilun"></use>
+		</svg>
+	</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/indent.js"></script>
+<script type="text/javascript" src="js/hitokoto.js"></script>
+<script type="text/javascript" src="js/init.js"></script>
+<script type="text/javascript" src="js/action.js"></script>
+</html>

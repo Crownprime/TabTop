@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<meta charset="UTF-8">
+	<title>Crown's Desktop</title>
+
+</head>
+<style>
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body {
+	font-family: Circular,"Hiragino Sans GB","华文细黑","STHeiti","微软雅黑","Microsoft YaHei",SimHei,"Helvetica Neue",Helvetica,Arial,sans-serif !important
+}
+a {
+	text-decoration: none;
+}
+
+.icon {
+	width: 1em; height: 1em;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100vh;
+}
+#optionsList {
+	list-style-type: none;
+	display: inline-block;
+	margin: 0;
+	padding: 15px;
+	width: 300px;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: auto; 
+	vertical-align: middle;
+}
+
+#a-about {
+	font-size: 23px;
+	font-weight: 700;
+	color: #337ab7;
+}
+#a-about:hover {
+	color: #23527c;
+	text-decoration: underline;
+}
+
+#optionsList .classify {
+	color: #999;
+	margin: 15px 0 5px 0;
+}
+#optionsList li {
+	width: 100%;
+	padding: 10px;
+	font-size: 14px;
+	color: #337ab7;
+	border-radius: 3px;
+	cursor: pointer;
+}
+#optionsList li:hover {
+	background-color: rgba(0,0,0,.1);
+}
+
+
+#addPackage {
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 99;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.2);
+}
+#addPackage>.content {
+	position: absolute;
+	top: 20%;
+	left: calc(50% - 200px);
+	width: 400px;
+	padding: 5px;
+	border: 1px solid #dddddd;
+	border-radius: 3px;
+	background-color: white;
+}
+#addPackage>.content>p {
+	font-size: 18px;
+}
+#addPackage>.content>label {
+	display: block;
+}
+#addPackage>.content>input {
+	display: block;
+	width: 100%;
+	padding: 5px;
+	font-size: 18px;
+	border: 1px solid #dddddd;
+	border-radius: 3px;
+}
+
+#options>.content {
+	display: inline-block;
+	width: calc(100% - 400px);
+	height: 100vh;
+	vertical-align: middle;
+}
+#options>.content>.settings>input {
+	display: block;
+}
+</style>
+<body>
+	<div id="options">
+		<ul id="optionsList">
+			<router-link to="/about" id="a-about">TabTop</router-link>
+			<p class="classify">设定</p>
+			<li><router-link to="/settings">选项</router-link></li>
+			<p class="classify">文件夹</p>
+			<li v-for="package in mark.package">{{package.name}}</li>
+			<li v-on:click="addPackage">添加</li>
+		</ul>
+
+		<div class="content">
+			<router-view></router-view>
+		</div>
+	
+		<div id="addPackage">
+			<div class="content">
+				<p>新建文件夹</p>
+				<hr />
+				<label>文件夹名称</label>
+				<input id="packageName" />
+				<span>*名称为1-8个字符以内</span>
+				<hr />
+				<div>
+					<button v-on:click="createPackage">创建</button>
+					<button v-on:click="cancelAddPackage">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

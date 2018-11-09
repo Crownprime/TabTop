@@ -1,0 +1,13 @@
+$.ajax({
+	url:"https://v1.hitokoto.cn?c=a",
+	type:"get",
+	dataType:"json",
+	success:function(data){
+		console.log(data);
+		$('#hitokotoText').text('“'+data.hitokoto+'”');
+		$('#hitokotoFrom').text('「'+data.from+'」');
+	},
+	error:function(xhr,type){
+		console.log(xhr+''+type);
+	}
+})
